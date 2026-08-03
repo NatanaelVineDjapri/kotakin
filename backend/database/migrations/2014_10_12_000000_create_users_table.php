@@ -15,14 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('umkm_id')->constrained('umkms')->cascadeOnDelete();
             $table->string('name', 150);
-            $table->string('email', 150);
+            $table->string('email', 150)->unique(); // UNIQUE global — 1 email = 1 akun = 1 UMKM (Opsi A MVP)
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin', 'kasir', 'karyawan']);
             $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
-            $table->unique(['umkm_id', 'email']);
         });
     }
 

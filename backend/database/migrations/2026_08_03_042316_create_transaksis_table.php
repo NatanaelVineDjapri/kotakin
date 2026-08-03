@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('umkm_id')->constrained('umkms')->cascadeOnDelete();
-            $table->foreignId('kasir_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('kasir_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('kode_transaksi', 50);
             $table->decimal('total', 12, 2);
             $table->enum('metode_pembayaran', ['tunai', 'qris', 'transfer', 'debit']);
