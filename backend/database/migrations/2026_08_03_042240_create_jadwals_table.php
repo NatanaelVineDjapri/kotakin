@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('umkm_id')->constrained('umkms')->cascadeOnDelete();
-            $table->string('name', 150);
-            $table->string('email', 150);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->enum('role', ['admin', 'kasir', 'karyawan']);
-            $table->boolean('is_active')->default(true);
-            $table->rememberToken();
+            $table->foreignId('karyawan_id')->constrained('karyawans')->cascadeOnDelete();
+            $table->enum('hari', ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu']);
+            $table->time('jam_masuk');
+            $table->time('jam_pulang');
+            $table->string('shift', 50)->nullable();
             $table->timestamps();
-            $table->unique(['umkm_id', 'email']);
+            $table->unique(['karyawan_id', 'hari']);
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('jadwals');
     }
 };
