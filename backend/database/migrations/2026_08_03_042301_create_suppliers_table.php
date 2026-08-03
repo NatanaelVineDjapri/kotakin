@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('umkm_id')->constrained('umkms')->cascadeOnDelete();
-            $table->string('name', 150);
-            $table->string('email', 150);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->enum('role', ['admin', 'kasir', 'karyawan']);
-            $table->boolean('is_active')->default(true);
-            $table->rememberToken();
+            $table->string('nama_supplier', 150);
+            $table->string('no_hp', 20)->nullable();
+            $table->text('alamat')->nullable();
             $table->timestamps();
-            $table->unique(['umkm_id', 'email']);
         });
     }
 
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('suppliers');
     }
 };

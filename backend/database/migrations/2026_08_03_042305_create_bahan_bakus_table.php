@@ -11,18 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('bahan_bakus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('umkm_id')->constrained('umkms')->cascadeOnDelete();
-            $table->string('name', 150);
-            $table->string('email', 150);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->enum('role', ['admin', 'kasir', 'karyawan']);
-            $table->boolean('is_active')->default(true);
-            $table->rememberToken();
+            $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->nullOnDelete();
+            $table->string('nama_bahan', 150);
+            $table->string('satuan', 20);
+            $table->decimal('stok_saat_ini', 12, 2)->default(0);
+            $table->decimal('stok_minimum', 12, 2)->nullable();
             $table->timestamps();
-            $table->unique(['umkm_id', 'email']);
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('bahan_bakus');
     }
 };
