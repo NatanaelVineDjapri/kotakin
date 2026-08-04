@@ -18,6 +18,7 @@ class Umkm extends Model
     ];
 
     public function users(): HasMany { return $this->hasMany(User::class); }
+    
     public function karyawans(): HasMany { return $this->hasMany(Karyawan::class); }
     public function jadwals(): HasMany { return $this->hasMany(Jadwal::class); }
     public function absensis(): HasMany { return $this->hasMany(Absensi::class); }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('umkm_id')->constrained('umkms')->cascadeOnDelete();
+            $table->foreignId('umkm_id')->nullable()->constrained('umkms')->nullOnDelete();
             $table->string('name', 150);
             $table->string('email', 150)->unique(); // UNIQUE global — 1 email = 1 akun = 1 UMKM (Opsi A MVP)
             $table->timestamp('email_verified_at')->nullable();
