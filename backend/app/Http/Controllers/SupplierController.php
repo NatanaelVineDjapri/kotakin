@@ -2,48 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSupplierRequest;
+use App\Http\Requests\UpdateSupplierRequest;
+use App\Http\Resources\SupplierResource;
 use App\Models\Supplier;
-use Illuminate\Http\Request;
+use App\Services\SupplierService;
 
 class SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(protected SupplierService $service) {}
+
     public function index()
     {
-        //
+        return SupplierResource::collection($this->service->getAll());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreSupplierRequest $request)
     {
-        //
+        $supplier = $this->service->create($request->validated());
+        return new SupplierResource($supplier);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Supplier $supplier)
     {
-        //
+        return new SupplierResource($supplier);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Supplier $supplier)
+    public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
-        //
+        $supplier = $this->service->update($supplier, $request->validated());
+        return new SupplierResource($supplier);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Supplier $supplier)
     {
-        //
+        $this->service->delete($supplier);
+        return response()->json(['message' => 'Supplier berhasil dihapus']);
     }
 }
