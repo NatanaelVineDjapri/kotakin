@@ -2,48 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Umkm;
+use App\Http\Requests\StoreUmkmRequest;
+use App\Http\Requests\UpdateUmkmRequest;
+use App\Http\Resources\UmkmResource;
+use App\Services\UmkmService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class UmkmController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected UmkmService $umkmService) {}
+
+    public function show(Request $request)
     {
-        //
+        $umkm = $this->umkmService->getAllUmkm();
+
+        return UmkmResource::collection($umkm);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function showById(int $id)
     {
-        //
+        $umkm = $this->umkmService->getUmkmById($id);
+
+        return new UmkmResource($umkm);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Umkm $umkm)
+    public function store(StoreUmkmRequest $request)
     {
-        //
+        $umkm = $this->umkmService->createUmkm($request->validated());
+
+        return new UmkmResource($umkm);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Umkm $umkm)
+    public function update(UpdateUmkmRequest $request, int $id)
     {
-        //
+        $umkm = $this->umkmService->updateUmkmById($id,$request->validated());
+
+        return new UmkmResource($umkm);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Umkm $umkm)
+    public function destroy(int $id): JsonResponse
     {
-        //
+        $this->umkmService->deleteUmkmById($id);
+
+        return response()->json(['message' => 'UMKM berhasil dihapus.']);
     }
 }
