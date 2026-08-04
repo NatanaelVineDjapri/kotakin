@@ -2,48 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreKategoriRequest;
+use App\Http\Requests\UpdateKategoriRequest;
+use App\Http\Resources\KategoriResource;
 use App\Models\Kategori;
-use Illuminate\Http\Request;
+use App\Services\KategoriService;
 
 class KategoriController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(protected KategoriService $service) {}
+
     public function index()
     {
-        //
+        return KategoriResource::collection($this->service->getAll());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreKategoriRequest $request)
     {
-        //
+        $kategori = $this->service->create($request->validated());
+        return new KategoriResource($kategori);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Kategori $kategori)
     {
-        //
+        return new KategoriResource($kategori);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Kategori $kategori)
+    public function update(UpdateKategoriRequest $request, Kategori $kategori)
     {
-        //
+        $kategori = $this->service->update($kategori, $request->validated());
+        return new KategoriResource($kategori);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Kategori $kategori)
     {
-        //
+        $this->service->delete($kategori);
+        return response()->json(['message' => 'Kategori berhasil dihapus']);
     }
 }
