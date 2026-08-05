@@ -11,15 +11,19 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function __construct(protected AuthService $service) {}
+    public function __construct(protected AuthService $service)
+    {
+    }
 
     public function register(RegisterRequest $request): JsonResponse
     {
         ['user' => $user, 'token' => $token] = $this->service->register($request->validated());
 
         return response()->json([
-            'data'    => new UserResource($user->load('umkm')),
-            'token'   => $token,
+            'data' => [
+                'user' => new UserResource($user->load('umkm')),
+                'token' => $token,
+            ],
             'message' => 'Registrasi berhasil. Selamat datang di Kotakin!',
         ], 201);
     }
@@ -29,17 +33,19 @@ class AuthController extends Controller
         ['user' => $user, 'token' => $token] = $this->service->login($request->validated());
 
         return response()->json([
-            'data'    => new UserResource($user->load('umkm')),
-            'token'   => $token,
+            'data' => [
+                'user' => new UserResource($user->load('umkm')),
+                'token' => $token,
+            ],
             'message' => 'Login berhasil.',
-        ]);
+        ], 200);
     }
 
     public function me(Request $request): JsonResponse
     {
         return response()->json([
-            'data'    => new UserResource($request->user()->load('umkm')),
-            'message' => 'OK',
+            'data' => new UserResource($request->user()->load('umkm')),
+            'message' => 'Berhasil',
         ]);
     }
 
@@ -48,7 +54,7 @@ class AuthController extends Controller
         $this->service->logout($request->user());
 
         return response()->json([
-            'data'    => null,
+            'data' => null,
             'message' => 'Logout berhasil.',
         ]);
     }

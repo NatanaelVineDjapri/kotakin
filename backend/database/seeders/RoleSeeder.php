@@ -19,10 +19,10 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $roles = [
-            'super_admin', // Pemilik UMKM, akses penuh
-            'admin',       // Manajer / pengelola, akses hampir penuh
-            'kasir',       // Operator POS, akses transaksi penjualan
-            'karyawan',    // Karyawan biasa, akses absensi & jadwal saja
+            'super_admin', // Pemilik platform Kotakin (developer) — lintas semua UMKM, endpoint /platform/*
+            'admin',       // Pemilik / manajer UMKM — akses penuh dalam 1 UMKM
+            'kasir',       // Operator POS — buat transaksi penjualan & lihat stok (read-only)
+            'karyawan',    // Karyawan biasa — absensi & lihat slip gaji sendiri
         ];
 
         foreach ($roles as $role) {
