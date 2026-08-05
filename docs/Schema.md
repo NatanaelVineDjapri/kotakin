@@ -133,7 +133,7 @@ erDiagram
 | `email_pemilik` | VARCHAR(150) | NOT NULL, UNIQUE | |
 | `no_hp` | VARCHAR(20) | NULLABLE | |
 | `alamat` | TEXT | NULLABLE | |
-| `status_langganan` | ENUM | DEFAULT `trial` | `aktif`, `nonaktif`, `trial` |
+| `status_langganan` | ENUM | DEFAULT `trial` | `trial`, `aktif`, `kadaluarsa`, `dibatalkan` |
 | `tanggal_mulai_langganan` | DATE | NULLABLE | |
 | `tanggal_berakhir_langganan` | DATE | NULLABLE | |
 | `created_at` / `updated_at` | TIMESTAMP | NULLABLE | |

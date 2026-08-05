@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email_pemilik', 150)->unique();
             $table->string('no_hp', 20)->nullable();
             $table->text('alamat')->nullable();
-            $table->enum('status_langganan', ['aktif', 'nonaktif', 'trial'])->default('trial');
+            $table->enum('status_langganan', ['trial', 'aktif', 'kadaluarsa', 'dibatalkan'])->default('trial');
             $table->date('tanggal_mulai_langganan')->nullable();
             $table->date('tanggal_berakhir_langganan')->nullable();
             $table->timestamps();
