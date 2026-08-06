@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\BahanBakuController;
+use App\Http\Controllers\BahanMasukController;
+use App\Http\Controllers\BahanKeluarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +31,10 @@ Route::prefix('v1')->group(function () {
 
         Route::apiResource('kategoris', KategoriController::class);
         Route::apiResource('suppliers', SupplierController::class);
+        Route::apiResource('produks', ProdukController::class);
+        Route::apiResource('bahan-bakus', BahanBakuController::class);
+        Route::apiResource('bahan-masuks', BahanMasukController::class);
+        Route::apiResource('bahan-keluars', BahanKeluarController::class);
     });
 
 });

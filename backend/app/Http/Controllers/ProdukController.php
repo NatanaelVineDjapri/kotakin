@@ -2,48 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProdukRequest;
+use App\Http\Requests\UpdateProdukRequest;
+use App\Http\Resources\ProdukResource;
 use App\Models\Produk;
-use Illuminate\Http\Request;
+use App\Services\ProdukService;
 
 class ProdukController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(protected ProdukService $service) {}
+
     public function index()
     {
-        //
+        return ProdukResource::collection($this->service->getAll());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreProdukRequest $request)
     {
-        //
+        $produk = $this->service->create($request->validated());
+        return new ProdukResource($produk);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Produk $produk)
     {
-        //
+        return new ProdukResource($produk);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Produk $produk)
+    public function update(UpdateProdukRequest $request, Produk $produk)
     {
-        //
+        $produk = $this->service->update($produk, $request->validated());
+        return new ProdukResource($produk);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Produk $produk)
     {
-        //
+        $this->service->delete($produk);
+        return response()->json(['message' => 'Produk berhasil dihapus']);
     }
 }

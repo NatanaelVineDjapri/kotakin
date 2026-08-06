@@ -2,48 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBahanMasukRequest;
+use App\Http\Requests\UpdateBahanMasukRequest;
+use App\Http\Resources\BahanMasukResource;
 use App\Models\BahanMasuk;
-use Illuminate\Http\Request;
+use App\Services\BahanMasukService;
 
 class BahanMasukController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(protected BahanMasukService $service) {}
+
     public function index()
     {
-        //
+        return BahanMasukResource::collection($this->service->getAll());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreBahanMasukRequest $request)
     {
-        //
+        $bahanMasuk = $this->service->create($request->validated());
+        return new BahanMasukResource($bahanMasuk);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(BahanMasuk $bahanMasuk)
     {
-        //
+        return new BahanMasukResource($bahanMasuk);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, BahanMasuk $bahanMasuk)
+    public function update(UpdateBahanMasukRequest $request, BahanMasuk $bahanMasuk)
     {
-        //
+        $bahanMasuk = $this->service->update($bahanMasuk, $request->validated());
+        return new BahanMasukResource($bahanMasuk);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(BahanMasuk $bahanMasuk)
     {
-        //
+        $this->service->delete($bahanMasuk);
+        return response()->json(['message' => 'Bahan Masuk berhasil dihapus']);
     }
 }
