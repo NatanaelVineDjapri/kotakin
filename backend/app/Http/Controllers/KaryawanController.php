@@ -3,47 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Models\Karyawan;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Services\KaryawanService;
+use App\Http\Resources\KaryawanResource;
+use App\Http\Requests\StoreKaryawanRequest;
+use App\Http\Requests\UpdateKaryawanRequest;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class KaryawanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(protected KaryawanService $karyawanService) {}
+
     public function index()
     {
-        //
+    return $this->karyawanService->getAll();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show(Karyawan $karyawan): KaryawanResource
     {
-        //
+        return new KaryawanResource(
+            $this->karyawanService->getById($karyawan)
+        );
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Karyawan $karyawan)
+    public function store(StoreKaryawanRequest $request)
     {
-        //
+    $karyawan = $this->karyawanService->create(
+        $request->validated()
+    );
+
+    return new KaryawanResource($karyawan);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Karyawan $karyawan)
+    public function update(UpdateKaryawanRequest $request, Karyawan $karyawan): KaryawanResource
     {
-        //
+        $karyawan = $this->karyawanService->update(
+            $karyawan,
+            $request->validated()
+        );
+
+        return new KaryawanResource($karyawan);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Karyawan $karyawan)
+    public function destroy(Karyawan $karyawan): JsonResponse
     {
-        //
+        $this->karyawanService->deactivate($karyawan);
+
+        return response()->json([
+            'data' => null,
+            'message' => 'Karyawan berhasil dinonaktifkan.',
+            'errors' => null,
+        ]);
     }
 }
