@@ -2,48 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBahanBakuRequest;
+use App\Http\Requests\UpdateBahanBakuRequest;
+use App\Http\Resources\BahanBakuResource;
 use App\Models\BahanBaku;
-use Illuminate\Http\Request;
+use App\Services\BahanBakuService;
 
 class BahanBakuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(protected BahanBakuService $service) {}
+
     public function index()
     {
-        //
+        return BahanBakuResource::collection($this->service->getAll());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreBahanBakuRequest $request)
     {
-        //
+        $bahanBaku = $this->service->create($request->validated());
+        return new BahanBakuResource($bahanBaku);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(BahanBaku $bahanBaku)
     {
-        //
+        return new BahanBakuResource($bahanBaku);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, BahanBaku $bahanBaku)
+    public function update(UpdateBahanBakuRequest $request, BahanBaku $bahanBaku)
     {
-        //
+        $bahanBaku = $this->service->update($bahanBaku, $request->validated());
+        return new BahanBakuResource($bahanBaku);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(BahanBaku $bahanBaku)
     {
-        //
+        $this->service->delete($bahanBaku);
+        return response()->json(['message' => 'Bahan Baku berhasil dihapus']);
     }
 }
