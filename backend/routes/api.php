@@ -15,9 +15,6 @@ use App\Http\Controllers\KaryawanController;
 */
 
 Route::prefix('v1')->group(function () {
-    //===test api---
-    Route::apiResource('karyawans', KaryawanController::class);
-
     // --- Auth (public) ---
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthController::class, 'register']);
@@ -31,6 +28,8 @@ Route::prefix('v1')->group(function () {
 
         Route::apiResource('kategoris', KategoriController::class);
         Route::apiResource('suppliers', SupplierController::class);
+
+        Route::apiResource('karyawans', KaryawanController::class);
     });
 
 });
