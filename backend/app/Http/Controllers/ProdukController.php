@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProdukRequest;
-use App\Http\Requests\UpdateProdukRequest;
+use App\Http\Requests\Produk\StoreProdukRequest;
+use App\Http\Requests\Produk\UpdateProdukRequest;
 use App\Http\Resources\ProdukResource;
 use App\Models\Produk;
 use App\Services\ProdukService;
+use App\Exports\ProdukExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProdukController extends Controller
 {
@@ -38,5 +40,21 @@ class ProdukController extends Controller
     {
         $this->service->delete($produk);
         return response()->json(['message' => 'Produk berhasil dihapus']);
+    }
+
+    public function toggleStatus(Produk $produk)
+    {
+        $produk = $this->service->toggleStatus($produk);
+        return new ProdukResource($produk);
+    }
+
+    public function export()
+    {
+        $produk = $this->service->getAllForExport();
+
+        return Excel::download(
+            new ProdukExport($produk),
+            'data-produk-' . now()->format('Y-m-d') . '.xlsx'
+        );
     }
 }

@@ -27,4 +27,17 @@ class ProdukService
     {
         $produk->delete();
     }
+
+    public function toggleStatus(Produk $produk): Produk
+    {
+        $produk->status = $produk->status === 'aktif' ? 'nonaktif' : 'aktif';
+        $produk->save();
+
+        return $produk;
+    }
+
+    public function getAllForExport(): Collection
+    {
+        return Produk::with('kategori')->get();
+    }
 }

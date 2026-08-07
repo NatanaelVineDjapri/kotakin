@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBahanKeluarRequest;
-use App\Http\Requests\UpdateBahanKeluarRequest;
+use App\Http\Requests\BahanKeluar\StoreBahanKeluarRequest;
+use App\Http\Requests\BahanKeluar\UpdateBahanKeluarRequest;
 use App\Http\Resources\BahanKeluarResource;
 use App\Models\BahanKeluar;
 use App\Services\BahanKeluarService;

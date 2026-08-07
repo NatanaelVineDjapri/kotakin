@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBahanBakuRequest;
-use App\Http\Requests\UpdateBahanBakuRequest;
+use App\Http\Requests\BahanBaku\StoreBahanBakuRequest;
+use App\Http\Requests\BahanBaku\UpdateBahanBakuRequest;
 use App\Http\Resources\BahanBakuResource;
 use App\Models\BahanBaku;
 use App\Services\BahanBakuService;
+use App\Exports\BahanBakuExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BahanBakuController extends Controller
 {
@@ -38,5 +40,20 @@ class BahanBakuController extends Controller
     {
         $this->service->delete($bahanBaku);
         return response()->json(['message' => 'Bahan Baku berhasil dihapus']);
+    }
+
+    public function stokMenipis()
+    {
+        return BahanBakuResource::collection($this->service->getStokMenipis());
+    }
+
+    public function export()
+    {
+        $bahanBaku = $this->service->getAllForExport();
+
+        return Excel::download(
+            new BahanBakuExport($bahanBaku),
+            'data-bahan-baku-' . now()->format('Y-m-d') . '.xlsx'
+        );
     }
 }

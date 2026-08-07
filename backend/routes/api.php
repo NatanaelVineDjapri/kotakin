@@ -39,12 +39,30 @@ Route::prefix('v1')->group(function () {
             Route::get('rekap/bulanan',         [AbsensiController::class, 'rekapBulanan']);
             Route::get('rekap/bulanan/export',  [AbsensiController::class, 'exportRekapBulanan']);
             Route::get('karyawan/{karyawan}',   [AbsensiController::class, 'detailKaryawan']);
+        });
+
+        Route::middleware('role:admin|super_admin')->group(function () {
             Route::apiResource('kategoris', KategoriController::class);
             Route::apiResource('suppliers', SupplierController::class);
-            Route::apiResource('produks', ProdukController::class);
+
+            Route::get('bahan-bakus/export', [BahanBakuController::class, 'export']);
+            Route::get('bahan-bakus/stok-menipis', [BahanBakuController::class, 'stokMenipis']);
             Route::apiResource('bahan-bakus', BahanBakuController::class);
             Route::apiResource('bahan-masuks', BahanMasukController::class);
             Route::apiResource('bahan-keluars', BahanKeluarController::class);
+        });
+
+        // --- Produk ---
+        // customs routes AND whole access (create, delete, update, etc.)
+        Route::middleware('role:admin|super_admin')->group(function () {
+            Route::get('produks/export', [ProdukController::class, 'export']);
+            Route::patch('produks/{produk}/toggle-status', [ProdukController::class, 'toggleStatus']);
+            Route::apiResource('produks', ProdukController::class)->except(['index', 'show']);
+        });
+
+        // Read-only (index, show): boleh diakses admin, super_admin, DAN kasir
+        Route::middleware('role:admin|super_admin|kasir')->group(function () {
+            Route::apiResource('produks', ProdukController::class)->only(['index', 'show']);
         });
     });
 
