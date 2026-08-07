@@ -7,6 +7,8 @@ use App\Http\Requests\BahanBaku\UpdateBahanBakuRequest;
 use App\Http\Resources\BahanBakuResource;
 use App\Models\BahanBaku;
 use App\Services\BahanBakuService;
+use App\Exports\BahanBakuExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BahanBakuController extends Controller
 {
@@ -43,5 +45,15 @@ class BahanBakuController extends Controller
     public function stokMenipis()
     {
         return BahanBakuResource::collection($this->service->getStokMenipis());
+    }
+
+    public function export()
+    {
+        $bahanBaku = $this->service->getAllForExport();
+
+        return Excel::download(
+            new BahanBakuExport($bahanBaku),
+            'data-bahan-baku-' . now()->format('Y-m-d') . '.xlsx'
+        );
     }
 }

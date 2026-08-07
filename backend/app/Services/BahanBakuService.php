@@ -34,4 +34,9 @@ class BahanBakuService
             ->whereNotNull('stok_minimum')
             ->get();
     }
+
+    public function getAllForExport(): Collection
+    {
+        return BahanBaku::with('supplier')->get();
+    }
 }
