@@ -39,4 +39,10 @@ class ProdukController extends Controller
         $this->service->delete($produk);
         return response()->json(['message' => 'Produk berhasil dihapus']);
     }
+
+    public function toggleStatus(Produk $produk)
+    {
+        $produk = $this->service->toggleStatus($produk);
+        return new ProdukResource($produk);
+    }
 }
