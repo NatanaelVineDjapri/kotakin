@@ -27,4 +27,11 @@ class BahanBakuService
     {
         $bahanBaku->delete();
     }
+
+    public function getStokMenipis(): Collection
+    {
+        return BahanBaku::whereColumn('stok_saat_ini', '<=', 'stok_minimum')
+            ->whereNotNull('stok_minimum')
+            ->get();
+    }
 }

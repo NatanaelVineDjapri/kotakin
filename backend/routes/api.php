@@ -44,6 +44,8 @@ Route::prefix('v1')->group(function () {
         Route::middleware('role:admin|super_admin')->group(function () {
             Route::apiResource('kategoris', KategoriController::class);
             Route::apiResource('suppliers', SupplierController::class);
+            
+            Route::get('bahan-bakus/stok-menipis', [BahanBakuController::class, 'stokMenipis']);
             Route::apiResource('bahan-bakus', BahanBakuController::class);
             Route::apiResource('bahan-masuks', BahanMasukController::class);
             Route::apiResource('bahan-keluars', BahanKeluarController::class);

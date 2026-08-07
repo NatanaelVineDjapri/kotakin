@@ -39,4 +39,9 @@ class BahanBakuController extends Controller
         $this->service->delete($bahanBaku);
         return response()->json(['message' => 'Bahan Baku berhasil dihapus']);
     }
+
+    public function stokMenipis()
+    {
+        return BahanBakuResource::collection($this->service->getStokMenipis());
+    }
 }
