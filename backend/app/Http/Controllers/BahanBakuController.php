@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBahanBakuRequest;
-use App\Http\Requests\UpdateBahanBakuRequest;
+use App\Http\Requests\BahanBaku\StoreBahanBakuRequest;
+use App\Http\Requests\BahanBaku\UpdateBahanBakuRequest;
 use App\Http\Resources\BahanBakuResource;
 use App\Models\BahanBaku;
 use App\Services\BahanBakuService;

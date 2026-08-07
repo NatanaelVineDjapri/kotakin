@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProdukRequest;
-use App\Http\Requests\UpdateProdukRequest;
+use App\Http\Requests\Produk\StoreProdukRequest;
+use App\Http\Requests\Produk\UpdateProdukRequest;
 use App\Http\Resources\ProdukResource;
 use App\Models\Produk;
 use App\Services\ProdukService;
