@@ -35,4 +35,9 @@ class ProdukService
 
         return $produk;
     }
+
+    public function getAllForExport(): Collection
+    {
+        return Produk::with('kategori')->get();
+    }
 }
